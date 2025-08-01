@@ -1,199 +1,450 @@
 # wail-dashboard1
 <!DOCTYPE html>
-<html lang="fr">
+<html lang="fr" >
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Dashboard Waïl Badouli</title>
-<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-<style>
-  body {
-    margin: 0;
-    font-family: 'SF Pro Display', sans-serif;
-    background: radial-gradient(circle at top, #0b0f1a 0%, #06080f 100%);
-    color: white;
-    overflow-x: hidden;
-  }
-  header {
-    position: sticky;
-    top: 0;
-    text-align: center;
-    padding: 20px;
-    background: rgba(20,25,40,0.8);
-    backdrop-filter: blur(12px);
-    box-shadow: 0 0 20px rgba(0,255,100,0.2);
-  }
-  #balance {
-    font-size: 2em;
-    color: #4caf50;
-    transition: color 0.3s ease;
-  }
-  main {
-    padding: 20px;
-  }
-  .charts {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 20px;
-    justify-content: center;
-  }
-  .chart-box {
-    background: rgba(255,255,255,0.05);
-    border-radius: 15px;
-    backdrop-filter: blur(10px);
-    padding: 15px;
-    flex: 1 1 300px;
-    min-width: 300px;
-  }
-  h2 {
-    margin-top: 0;
-    font-weight: 600;
-    color: #4cafef;
-  }
-  .card {
-    background: rgba(255,255,255,0.05);
-    border-radius: 12px;
-    padding: 12px;
-    margin: 8px 0;
-    backdrop-filter: blur(6px);
-  }
-  .ticker {
-    width: 100%;
-    background: rgba(20,25,40,0.9);
-    color: #4cafef;
-    position: fixed;
-    bottom: 0;
-    white-space: nowrap;
-    overflow: hidden;
-    height: 40px;
-    line-height: 40px;
-    font-size: 0.9em;
-  }
-  .ticker-content {
-    display: inline-block;
-    padding-left: 100%;
-    animation: scroll 20s linear infinite;
-  }
-  @keyframes scroll {
-    0% { transform: translateX(0); }
-    100% { transform: translateX(-100%); }
-  }
-</style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Compte Trading - Waïl Badouli</title>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <style>
+    body {
+      margin: 0;
+      font-family: 'SF Pro Display', sans-serif;
+      background: #06080f;
+      color: white;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+    header {
+      width: 100%;
+      max-width: 430px;
+      text-align: center;
+      padding: 16px 10px;
+      background: rgba(30, 20, 50, 0.9);
+      box-shadow: 0 0 20px rgba(0, 255, 255, 0.3);
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+      user-select: none;
+    }
+    h1 {
+      color: #00e5ff;
+      margin: 0;
+      font-size: 1.5rem;
+      line-height: 1.2;
+    }
+    .balance {
+      font-size: 1.2rem;
+      color: #00e676;
+      margin-top: 6px;
+      font-weight: 600;
+      letter-spacing: 0.03em;
+    }
+    .marquee {
+      width: 100%;
+      max-width: 430px;
+      background: #0c101a;
+      overflow: hidden;
+      white-space: nowrap;
+      box-shadow: 0 0 10px rgba(0, 255, 255, 0.2);
+      padding: 5px 0;
+      margin: 8px 0;
+      user-select: none;
+    }
+    .marquee span {
+      display: inline-block;
+      padding-left: 100%;
+      animation: marquee 20s linear infinite;
+      color: #00e5ff;
+      font-weight: 600;
+      font-size: 0.85rem;
+    }
+    @keyframes marquee {
+      0% {
+        transform: translateX(0);
+      }
+      100% {
+        transform: translateX(-100%);
+      }
+    }
+
+    main {
+      width: 100%;
+      max-width: 430px;
+      padding: 16px 12px 60px;
+      flex: 1 0 auto;
+      box-sizing: border-box;
+    }
+    h2 {
+      color: #ff4081;
+      margin-bottom: 12px;
+      font-size: 1.3rem;
+      font-weight: 600;
+    }
+
+    .balance-chart-container {
+      width: 100%;
+      background: rgba(255, 255, 255, 0.05);
+      border-radius: 15px;
+      padding: 10px 15px;
+      margin-bottom: 20px;
+      box-shadow: 0 0 20px rgba(0, 255, 255, 0.15);
+      backdrop-filter: blur(10px);
+    }
+
+    .crypto-forex {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+      align-items: center;
+    }
+    .chart-container {
+      width: 100%;
+      max-width: 400px;
+      height: 280px;
+      background: rgba(255, 255, 255, 0.05);
+      border-radius: 15px;
+      padding: 14px;
+      box-shadow: 0 0 20px rgba(255, 0, 255, 0.15);
+      backdrop-filter: blur(10px);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+    ul.crypto-list {
+      list-style: none;
+      padding-left: 0;
+      margin-top: 18px;
+      color: #00e5ff;
+      font-weight: 600;
+      font-size: 1rem;
+      width: 100%;
+      user-select: none;
+    }
+    ul.crypto-list li {
+      margin: 6px 0;
+      border-bottom: 1px solid rgba(0, 229, 255, 0.2);
+      padding-bottom: 4px;
+    }
+    .table-container {
+      overflow-x: auto;
+      margin-top: 30px;
+      background: rgba(255, 255, 255, 0.05);
+      border-radius: 15px;
+      padding: 12px;
+      box-shadow: 0 0 15px rgba(0, 255, 255, 0.15);
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.9rem;
+      min-width: 600px;
+    }
+    th,
+    td {
+      padding: 12px 8px;
+      text-align: center;
+    }
+    th {
+      background: rgba(0, 0, 0, 0.4);
+      color: #00e5ff;
+      text-transform: uppercase;
+    }
+    tr:nth-child(even) {
+      background: rgba(255, 255, 255, 0.03);
+    }
+    .pos {
+      color: #00e676;
+      font-weight: 700;
+    }
+    .neg {
+      color: #ff5252;
+      font-weight: 700;
+    }
+    .fee {
+      color: #ffca28;
+      font-weight: 700;
+    }
+
+    @media (max-width: 600px) {
+      main {
+        padding: 16px 8px 60px;
+      }
+      .chart-container,
+      .balance-chart-container {
+        max-width: 100%;
+        height: 250px;
+      }
+      h2 {
+        font-size: 1.1rem;
+      }
+    }
+  </style>
 </head>
 <body>
-<header>
-  <div><b>Compte de Waïl Badouli</b></div>
-  <div id="balance">114,576.78 USD</div>
-</header>
+  <header>
+    <h1>Compte de Waïl Badouli</h1>
+    <div class="balance" id="balance">114 576.78 USD</div>
+  </header>
 
-<main>
-  <div class="charts">
-    <div class="chart-box">
-      <h2>Évolution du Compte</h2>
-      <canvas id="balanceChart" height="200"></canvas>
+  <div class="marquee">
+    <span
+      >EUR/USD +0.02% | ETH +1.2% | SOL -0.5% | XRP +0.4% | ADA +0.9% | FOREX:
+      GBP/JPY -0.12%</span
+    >
+  </div>
+
+  <main>
+    <div class="balance-chart-container">
+      <h2>Évolution du solde</h2>
+      <canvas id="balanceChart"></canvas>
     </div>
-    <div class="chart-box">
-      <h2>Portefeuille Crypto</h2>
-      <canvas id="cryptoChart" height="200"></canvas>
+
+    <h2>Portefeuille Crypto & Forex</h2>
+    <div class="crypto-forex">
+      <div class="chart-container">
+        <canvas id="cryptoChart"></canvas>
+        <ul class="crypto-list">
+          <li>ETH : 12.3</li>
+          <li>SOL : 350</li>
+          <li>XRP : 15 000</li>
+          <li>ADA : 8 000</li>
+          <li>MATIC : 4 500</li>
+          <li>DOT : 1 200</li>
+          <li>AVAX : 950</li>
+          <li>LINK : 800</li>
+          <li>LTC : 600</li>
+          <li>DOGE : 1 000</li>
+        </ul>
+      </div>
+      <div class="chart-container">
+        <canvas id="forexChart"></canvas>
+        <ul class="crypto-list">
+          <li>EUR/USD : 35%</li>
+          <li>GBP/JPY : 25%</li>
+          <li>USD/CHF : 15%</li>
+          <li>AUD/NZD : 13%</li>
+          <li>CAD/JPY : 12%</li>
+        </ul>
+      </div>
     </div>
-  </div>
 
-  <h2>Transactions Récentes</h2>
-  <div id="transactions">
-    <!-- 25 transactions dynamiques -->
-  </div>
-</main>
+    <h2>Historique Transactions</h2>
+    <div class="table-container">
+      <table>
+        <thead>
+          <tr>
+            <th>Date</th>
+            <th>Type</th>
+            <th>Instrument</th>
+            <th>Montant</th>
+            <th>Solde Après</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>19 Juil 2025</td>
+            <td>Retrait</td>
+            <td>Compte</td>
+            <td class="neg">-1 500 €</td>
+            <td>114 576 €</td>
+          </tr>
+          <tr>
+            <td>05 Juil 2025</td>
+            <td>Virement Entrant</td>
+            <td>Global Connect</td>
+            <td class="pos">+1 225 €</td>
+            <td>116 076 €</td>
+          </tr>
+          <tr>
+            <td>28 Juin 2025</td>
+            <td>Virement Sortant</td>
+            <td>ICT Bank</td>
+            <td class="neg">-1 225 €</td>
+            <td>114 851 €</td>
+          </tr>
+          <tr>
+            <td>12 Juin 2025</td>
+            <td>Achat Crypto</td>
+            <td>ETH</td>
+            <td class="neg">-5 000 €</td>
+            <td>114 076 €</td>
+          </tr>
+          <tr>
+            <td>01 Juin 2025</td>
+            <td>Clôture Forex</td>
+            <td>EUR/USD</td>
+            <td class="pos">+425 €</td>
+            <td>119 076 €</td>
+          </tr>
+          <tr>
+            <td>18 Mai 2025</td>
+            <td>Vente Crypto</td>
+            <td>SOL</td>
+            <td class="pos">+2 800 €</td>
+            <td>118 651 €</td>
+          </tr>
+          <tr>
+            <td>15 Mai 2025</td>
+            <td>Frais</td>
+            <td>Plateforme</td>
+            <td class="fee">-15 €</td>
+            <td>115 851 €</td>
+          </tr>
+          <tr>
+            <td>02 Mai 2025</td>
+            <td>Virement Entrant</td>
+            <td>David</td>
+            <td class="pos">+321 €</td>
+            <td>115 866 €</td>
+          </tr>
+          <tr>
+            <td>01 Mai 2025</td>
+            <td>Virement Sortant</td>
+            <td>David</td>
+            <td class="neg">-547 €</td>
+            <td>115 545 €</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </main>
 
-<!-- Bandeau Forex -->
-<div class="ticker">
-  <div class="ticker-content" id="forexTicker">
-    EUR/USD 1.098 ▲0.12% | GBP/JPY 182.44 ▼0.08% | USD/CHF 0.882 ▲0.05% | AUD/NZD 1.072 ▲0.15% | CAD/JPY 111.24 ▼0.10%
-  </div>
-</div>
+  <script>
+    // Fluctuation légère du solde
+    let balance = 114576.78;
+    const balanceEl = document.getElementById("balance");
+    setInterval(() => {
+      const fluctuation = (Math.random() * 6 - 3).toFixed(2);
+      balance += parseFloat(fluctuation);
+      balanceEl.textContent =
+        balance.toLocaleString("fr-FR", {
+          minimumFractionDigits: 2,
+          maximumFractionDigits: 2,
+        }) + " USD";
+    }, 3000);
 
-<script>
-  // --- Variables ---
-  let balance = 114576.78;
-  const transactions = [
-    "19 Juil 2025 – Retrait – 1,500 EUR",
-    "05 Juil 2025 – Virement Global Connect Services +1,225 EUR",
-    "28 Juin 2025 – Virement vers ICT Bank –1,225 EUR",
-    "12 Juin 2025 – Achat Crypto ETH –5,000 USD",
-    "01 Juin 2025 – Clôture ordre Forex EUR/USD +425 USD",
-    "18 Mai 2025 – Vente Crypto SOL +2,800 USD",
-    "02 Mai 2025 – Virement reçu de David +321 USD",
-    "01 Mai 2025 – Virement vers David –547 USD",
-    "25 Avr 2025 – Achat Crypto ADA –2,000 USD",
-    "15 Avr 2025 – Frais plateforme –15 USD",
-    "05 Avr 2025 – Ordre Forex GBP/USD –250 USD",
-    "01 Avr 2025 – Virement Global Connect Services +1,225 EUR",
-    "28 Mar 2025 – Virement vers ICT Bank –1,225 EUR",
-    "15 Mar 2025 – Achat Crypto DOT –1,000 USD",
-    "02 Mar 2025 – Frais plateforme –12 USD",
-    "20 Fév 2025 – Clôture Forex USD/JPY +375 USD",
-    "10 Fév 2025 – Vente Crypto SOL +1,500 USD",
-    "05 Fév 2025 – Ordre Forex EUR/GBP –180 USD",
-    "25 Jan 2025 – Achat Crypto ETH –2,000 USD",
-    "15 Jan 2025 – Virement reçu de David +321 USD",
-    "05 Jan 2025 – Virement vers David –547 USD",
-    "01 Jan 2025 – Virement Global Connect Services +1,225 EUR",
-    "28 Déc 2024 – Virement vers ICT Bank –1,225 EUR",
-    "20 Déc 2024 – Achat Crypto ADA –1,500 USD",
-    "10 Déc 2024 – Frais plateforme –10 USD"
-  ];
+    // Graphique évolution solde
+    const ctxBalanceChart = document.getElementById("balanceChart").getContext("2d");
+    const balanceData = Array.from({ length: 20 }, () => 114000 + Math.random() * 600);
+    const balanceChart = new Chart(ctxBalanceChart, {
+      type: "line",
+      data: {
+        labels: Array.from({ length: 20 }, (_, i) => ""),
+        datasets: [
+          {
+            label: "Solde en USD",
+            data: balanceData,
+            borderColor: "#00e5ff",
+            backgroundColor: "rgba(0, 229, 255, 0.1)",
+            tension: 0.3,
+            fill: true,
+            pointRadius: 0,
+          },
+        ],
+      },
+      options: {
+        responsive: true,
+        animation: false,
+        scales: {
+          x: { display: false },
+          y: {
+            beginAtZero: false,
+            ticks: {
+              color: "white",
+            },
+            grid: {
+              color: "rgba(255,255,255,0.1)",
+            },
+          },
+        },
+        plugins: {
+          legend: { labels: { color: "white" } },
+          tooltip: {
+            enabled: true,
+            mode: "nearest",
+            intersect: false,
+          },
+        },
+      },
+    });
 
-  // --- Inject transactions ---
-  const txContainer = document.getElementById('transactions');
-  transactions.forEach(tx => {
-    const div = document.createElement('div');
-    div.className = 'card';
-    div.textContent = tx;
-    txContainer.appendChild(div);
-  });
+    // Mise à jour régulière du graphique d'évolution du solde
+    setInterval(() => {
+      balanceData.push(balance);
+      balanceData.shift();
+      balanceChart.data.datasets[0].data = balanceData;
+      balanceChart.update();
+    }, 3000);
 
-  // --- Solde fluctuant ---
-  setInterval(() => {
-    const change = (Math.random() - 0.5) * 100;
-    balance += change;
-    const balElem = document.getElementById('balance');
-    balElem.textContent = balance.toFixed(2) + ' USD';
-    balElem.style.color = change >= 0 ? '#4caf50' : '#f44336';
-  }, 2000);
+    // Graphique crypto
+    new Chart(document.getElementById("cryptoChart"), {
+      type: "doughnut",
+      data: {
+        labels: [
+          "ETH",
+          "SOL",
+          "XRP",
+          "ADA",
+          "MATIC",
+          "DOT",
+          "AVAX",
+          "LINK",
+          "LTC",
+          "DOGE",
+        ],
+        datasets: [
+          {
+            data: [30, 25, 20, 15, 10, 8, 6, 5, 4, 3],
+            backgroundColor: [
+              "#00e5ff",
+              "#ff4081",
+              "#00e676",
+              "#ffca28",
+              "#7c4dff",
+              "#e641c7",
+              "#e84142",
+              "#2a5ada",
+              "#a6a9aa",
+              "#c2a633",
+            ],
+          },
+        ],
+      },
+      options: {
+        responsive: true,
+        plugins: { legend: { labels: { color: "white" } } },
+      },
+    });
 
-  // --- Chart.js : Evolution balance ---
-  const ctxBalance = document.getElementById('balanceChart');
-  const balanceChart = new Chart(ctxBalance, {
-    type: 'line',
-    data: {
-      labels: Array.from({length: 20}, (_, i) => i),
-      datasets: [{
-        label: 'Évolution USD',
-        data: Array.from({length: 20}, () => 114000 + Math.random()*1000),
-        borderColor: '#4caf50',
-        backgroundColor: 'rgba(76, 175, 80, 0.1)',
-        tension: 0.3
-      }]
-    },
-    options: { plugins: { legend: { display: false } }, scales: { x: { display: false } } }
-  });
-  setInterval(() => {
-    balanceChart.data.datasets[0].data.push(balance);
-    balanceChart.data.datasets[0].data.shift();
-    balanceChart.update();
-  }, 2000);
-
-  // --- Chart.js : Crypto camembert ---
-  const ctxCrypto = document.getElementById('cryptoChart');
-  new Chart(ctxCrypto, {
-    type: 'doughnut',
-    data: {
-      labels: ['Ethereum', 'Solana', 'Cardano', 'Polkadot'],
-      datasets: [{
-        data: [34500, 32000, 28000, 20076],
-        backgroundColor: ['#627EEA', '#14F195', '#0033AD', '#E6007A']
-      }]
-    }
-  });
-</script>
+    // Graphique forex
+    new Chart(document.getElementById("forexChart"), {
+      type: "doughnut",
+      data: {
+        labels: ["EUR/USD", "GBP/JPY", "USD/CHF", "AUD/NZD", "CAD/JPY"],
+        datasets: [
+          {
+            data: [35, 25, 15, 13, 12],
+            backgroundColor: [
+              "#00e5ff",
+              "#ff4081",
+              "#00e676",
+              "#ffca28",
+              "#7c4dff",
+            ],
+          },
+        ],
+      },
+      options: {
+        responsive: true,
+        plugins: { legend: { labels: { color: "white" } } },
+      },
+    });
+  </script>
 </body>
 </html>
+
