@@ -187,7 +187,7 @@
 </head>
 <body>
   <header>
-    <h1>Compte de Waïl Badouli</h1>
+    <h1>Solde actuel</h1>
     <div class="balance" id="balance">114 576.78 USD</div>
   </header>
 
