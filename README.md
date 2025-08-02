@@ -1,10 +1,10 @@
 # COMPTE WAIL BADOULI
-
+<!DOCTYPE html>
 <html lang="fr" >
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Waïl Badouli</title>
+  <title>Compte Trading - Waïl Badouli</title>
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <style>
     body {
@@ -115,58 +115,45 @@
       flex-direction: column;
       align-items: center;
     }
-    ul.crypto-list {
-      list-style: none;
-      padding-left: 0;
-      margin-top: 18px;
-      color: #00e5ff;
-      font-weight: 600;
-      font-size: 1rem;
-      width: 100%;
-      user-select: none;
-    }
-    ul.crypto-list li {
-      margin: 6px 0;
-      border-bottom: 1px solid rgba(0, 229, 255, 0.2);
-      padding-bottom: 4px;
-    }
     .table-container {
       overflow-x: auto;
       margin-top: 30px;
-      background: rgba(255, 255, 255, 0.05);
+      background: rgba(255, 255, 255, 0.85);
       border-radius: 15px;
       padding: 12px;
       box-shadow: 0 0 15px rgba(0, 255, 255, 0.15);
     }
-    table {
+    .table-container table {
       width: 100%;
       border-collapse: collapse;
       font-size: 0.9rem;
       min-width: 600px;
+      color: black;
     }
-    th,
-    td {
+    .table-container th,
+    .table-container td {
       padding: 12px 8px;
       text-align: center;
+      color: black;
     }
-    th {
-      background: rgba(0, 0, 0, 0.4);
-      color: #00e5ff;
+    .table-container th {
+      background: #d0d0d0;
+      color: black;
       text-transform: uppercase;
     }
-    tr:nth-child(even) {
-      background: rgba(255, 255, 255, 0.03);
+    .table-container tr:nth-child(even) {
+      background: #f0f0f0;
     }
     .pos {
-      color: #00e676;
+      color: #008000;
       font-weight: 700;
     }
     .neg {
-      color: #ff5252;
+      color: #b22222;
       font-weight: 700;
     }
     .fee {
-      color: #ffca28;
+      color: #daa520;
       font-weight: 700;
     }
 
@@ -187,7 +174,7 @@
 </head>
 <body>
   <header>
-    <h1>Solde actuel</h1>
+    <h1>Compte de Waïl Badouli</h1>
     <div class="balance" id="balance">114 576.78 USD</div>
   </header>
 
@@ -208,28 +195,9 @@
     <div class="crypto-forex">
       <div class="chart-container">
         <canvas id="cryptoChart"></canvas>
-        <ul class="crypto-list">
-          <li>ETH : 12.3</li>
-          <li>SOL : 350</li>
-          <li>XRP : 15 000</li>
-          <li>ADA : 8 000</li>
-          <li>MATIC : 4 500</li>
-          <li>DOT : 1 200</li>
-          <li>AVAX : 950</li>
-          <li>LINK : 800</li>
-          <li>LTC : 600</li>
-          <li>DOGE : 1 000</li>
-        </ul>
       </div>
       <div class="chart-container">
         <canvas id="forexChart"></canvas>
-        <ul class="crypto-list">
-          <li>EUR/USD : 35%</li>
-          <li>GBP/JPY : 25%</li>
-          <li>USD/CHF : 15%</li>
-          <li>AUD/NZD : 13%</li>
-          <li>CAD/JPY : 12%</li>
-        </ul>
       </div>
     </div>
 
@@ -334,7 +302,7 @@
     const balanceChart = new Chart(ctxBalanceChart, {
       type: "line",
       data: {
-        labels: Array.from({ length: 20 }, (_, i) => ""),
+        labels: Array.from({ length: 20 }, () => ""),
         datasets: [
           {
             label: "Solde en USD",
@@ -355,15 +323,15 @@
           y: {
             beginAtZero: false,
             ticks: {
-              color: "white",
+              color: "black",
             },
             grid: {
-              color: "rgba(255,255,255,0.1)",
+              color: "rgba(0,0,0,0.1)",
             },
           },
         },
         plugins: {
-          legend: { labels: { color: "white" } },
+          legend: { labels: { color: "black" } },
           tooltip: {
             enabled: true,
             mode: "nearest",
