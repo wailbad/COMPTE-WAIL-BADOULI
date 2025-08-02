@@ -185,7 +185,7 @@
 <body>
   <header>
     <div class="subheader">ICT-BANK</div>
-    <h1>Compte WAIL BADOULI</h1>
+    <h1>Solde Actuel</h1>
     <div class="balance" id="balance">114 576.78 EUR</div>
   </header>
 
