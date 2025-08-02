@@ -18,11 +18,11 @@
       align-items: center;
       -webkit-font-smoothing: antialiased;
       -moz-osx-font-smoothing: grayscale;
+      text-align: center; /* centre tout le texte */
     }
     header {
       width: 100%;
       max-width: 430px;
-      text-align: center;
       padding: 16px 10px;
       background: rgba(30, 20, 50, 0.9);
       box-shadow: 0 0 20px rgba(0, 255, 255, 0.3);
@@ -30,17 +30,25 @@
       top: 0;
       z-index: 1000;
       user-select: none;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
     }
     h1 {
       color: #00e5ff;
-      margin: 0;
+      margin: 0 0 6px 0;
       font-size: 1.5rem;
       line-height: 1.2;
+    }
+    .subheader {
+      color: #00e5ff;
+      font-weight: 600;
+      font-size: 1.1rem;
+      margin-bottom: 6px;
     }
     .balance {
       font-size: 1.2rem;
       color: #00e676;
-      margin-top: 6px;
       font-weight: 600;
       letter-spacing: 0.03em;
     }
@@ -54,6 +62,7 @@
       padding: 5px 0;
       margin: 8px 0;
       user-select: none;
+      text-align: center;
     }
     .marquee span {
       display: inline-block;
@@ -78,6 +87,7 @@
       padding: 16px 12px 60px;
       flex: 1 0 auto;
       box-sizing: border-box;
+      text-align: center;
     }
     h2 {
       color: #ff4081;
@@ -174,8 +184,9 @@
 </head>
 <body>
   <header>
-    <h1>Solde actuel</h1>
-    <div class="balance" id="balance">114 576.78 USD</div>
+    <div class="subheader">ICT-BANK</div>
+    <h1>Compte WAIL BADOULI</h1>
+    <div class="balance" id="balance">114 576.78 EUR</div>
   </header>
 
   <div class="marquee">
@@ -293,7 +304,7 @@
         balance.toLocaleString("fr-FR", {
           minimumFractionDigits: 2,
           maximumFractionDigits: 2,
-        }) + " USD";
+        }) + " EUR";
     }, 3000);
 
     // Graphique évolution solde
@@ -305,7 +316,7 @@
         labels: Array.from({ length: 20 }, () => ""),
         datasets: [
           {
-            label: "Solde en USD",
+            label: "Solde en EUR",
             data: balanceData,
             borderColor: "#00e5ff",
             backgroundColor: "rgba(0, 229, 255, 0.1)",
@@ -415,4 +426,3 @@
   </script>
 </body>
 </html>
-
